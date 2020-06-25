@@ -13,8 +13,14 @@ import { fetchTasks } from '../../../actions/taskActions/fetchTasks';
 import { fetchTasklist } from '../../../actions/tasklistActions/fetchTasklist';
 import { fetchUsers } from '../../../actions/userActions/fetchUsers';
 import Action from '../../../components/Action';
+
 import { getUsers } from '../../../selectors/user';
 
+/**
+ * This component loads a list of tasks from the server
+ * and map it into the global store.
+ * Also display the tasks of the tasklist indicated as parameter
+ */
 class TasksContainer extends Component {
 
     componentDidMount() {
@@ -79,24 +85,37 @@ class TasksContainer extends Component {
     }
 }
 
+/**
+ * Validates props
+ */
 TasksContainer.propTypes = {
     fetchTasks: PropTypes.func.isRequired,
     tasks: PropTypes.array.isRequired,
 };
 
+/**
+ * Set default values to props
+ */
 TasksContainer.defaultProps = {
     tasks: [
     ]
 };
 
-const mapStateToProps = state => ({
+/**
+ * Get information from the global store and map it into the props
+ * of the component.
+ * Uses the selector design pattern to abstract the state structure
+ */
+ const mapStateToProps = state => ({
     tasks: getTasks(state),
     users: getUsers(state),
     tasklists: getTasklists(state),
 });
 
-//Connects the component with the global store of the application and
-//with react-router-dom for the navegation
+/**
+ * Connects the component with the global store of the application and
+ * with react-router-dom for the navegation
+ */
 export default withRouter(connect(mapStateToProps, {fetchTasks,
                                                     fetchUsers,
                                                     fetchTasklist

@@ -8,7 +8,13 @@ export const apiPut = (url, obj) => () =>
         method: 'PUT',
         body: JSON.stringify(obj),
         headers: new Headers({ 'Content-type': 'application/json'})
-    }).then(v => v.json());
+    }).then(v => v.json())
+    .then(r => {
+        if (r.code) {
+            return Promise.reject(r.message);
+        }
+        return r;
+    });
 
 export const apiPost = (url, obj) => () => 
     fetch(`${url}`, {
@@ -18,7 +24,7 @@ export const apiPost = (url, obj) => () =>
     }).then(v => v.json())
     .then(r => {
         if (r.code) {
-            return Promise.reject(r.validation);
+            return Promise.reject(r.message);
         }
         return r;
     })

@@ -31,7 +31,7 @@ class UserContainer extends Component {
         
         //Returns the promise to indicate submitting status and lock the button
         return this.props.updateUser(values).then(data => 
-            console.log("Se resolvio con exito"))
+            console.log("Success"))
         .catch(err => {
             throw new SubmissionError(err);
         });

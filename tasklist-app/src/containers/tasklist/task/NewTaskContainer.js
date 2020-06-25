@@ -10,6 +10,7 @@ import { fetchUsers } from '../../../actions/userActions/fetchUsers';
 import { fetchTasklist } from '../../../actions/tasklistActions/fetchTasklist';
 import { getUsers } from '../../../selectors/user';
 import { getTasklists } from '../../../selectors/tasklist';
+import { getTaskFromFormResult } from '../../../selectors/task';
 
 class NewTaskContainer extends Component {
     
@@ -32,7 +33,14 @@ class NewTaskContainer extends Component {
 
     handleOnSubmit = task => {
         
-        return  this.props.insertTask(task).then(data => 
+        console.log(`JSON Form: ${JSON.stringify(task)}`);
+
+        //Receives the form data and transforms it into a task
+        const taskToSave = getTaskFromFormResult(task);
+        
+        console.log(`taskToSave: ${JSON.stringify(taskToSave)}`);
+        
+        return  this.props.insertTask(taskToSave).then(data => 
             console.log("Success"))
         .catch(error => {
             throw new SubmissionError (error);

@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field} from 'redux-form';
-import DropdownList from 'react-widgets/lib/DropdownList'
+import DropdownList from 'react-widgets/lib/DropdownList';
+import moment from 'moment';
+import momentLocaliser from "react-widgets-moment";
 import { connect } from 'react-redux';
 import { setPropsAsInitial } from '../../../helpers/setPropsAsInitial';
 import Action from '../../Action';
 import { Prompt } from 'react-router-dom';
 //CSS for the widgets
 import 'react-widgets/dist/css/react-widgets.css'
+
+momentLocaliser(moment)
 
 const isRequired = value => (
     !value && "This field is required"
@@ -46,8 +50,15 @@ const onlyGrow = (value, previousValue, values) => (
     value && ( !previousValue ? value : (value > previousValue ? value : previousValue))
 );
 
-const CustomerEdit = ({tasklists, users, handleSubmit, submitting, onBack, pristine, submitSucceeded}) => {
+const TaskEdit = ({tasklists, users, handleSubmit, submitting, onBack, pristine, submitSucceeded}) => {
     
+    const renderDropdownList = ({ input, data, valueField, textField }) =>
+    <DropdownList {...input}
+        data={data}
+        valueField={valueField}
+        textField={textField}
+        onChange={input.onChange} />
+        
     //Make a list of values with the tasklists (not used)
     const transformedTasklists = tasklists.reduce( (acc, tasklist) => {
         const value = ({
@@ -65,7 +76,21 @@ const CustomerEdit = ({tasklists, users, handleSubmit, submitting, onBack, prist
         });
         return [...acc, value]
       },[] );
-      
+     
+    //Domain for the dropdown to choose status
+    const statuses = [
+        {status: "Open", value: 1},
+        {status: "In progress", value: 2},
+        {status: "Completed", value: 3},
+        {status: "Archived", value: 4}
+    ];
+     
+    //Domain for the dropdown to choose done option
+    const done = [
+        {done: "Yes", value: "Y"},
+        {done: "No", value: "N"}
+    ];
+    
     console.log(`Transformedtasklists: ${JSON.stringify(transformedTasklists)}`);
 
     return (
@@ -77,29 +102,35 @@ const CustomerEdit = ({tasklists, users, handleSubmit, submitting, onBack, prist
                     type="text"
                     validate={isRequired} 
                     label="Description"></Field>
+                <label>Tasklist</label>
                 <Field
                     name="tasklist"
-                    component={MyField}
-                    validate={isRequired} 
-                    type="text"
-                    label="Tasklist"></Field>
+                    component={renderDropdownList}
+                    data={transformedTasklists}
+                    valueField="value"
+                    textField="tasklist"></Field>
+                <label>Done</label>
                 <Field
                     name="done"
                     component={MyField}
-                    type="text"
-                    validate={isNoY}
-                    label="Done"></Field>
+                    component={renderDropdownList}
+                    data={done}
+                    valueField="value"
+                    textField="done"></Field>
+                <label>User</label>
                 <Field
                     name="user"
-                    component={MyField}
-                    type="text"
-                    label="User"></Field>
+                    component={renderDropdownList}
+                    data={transformedUsers}
+                    valueField="value"
+                    textField="user"></Field>
+                <label>Status</label>
                 <Field
                     name="status"
-                    component={MyField}
-                    type="text"
-                    validate={isRequiredFormat}
-                    label="Status (1 - Open, 2 - In Progress, 3 - Completed, 4 - Archived)"></Field>
+                    component={renderDropdownList}
+                    data={statuses}
+                    valueField="value"
+                    textField="status"></Field>
                 <Action>
                     <button type="button" disabled={submitting} onClick={onBack}>
                         Cancel
@@ -116,14 +147,14 @@ const CustomerEdit = ({tasklists, users, handleSubmit, submitting, onBack, prist
     );
 };
 
-CustomerEdit.propTypes = {
+TaskEdit.propTypes = {
     name: PropTypes.string,
     onBack: PropTypes.func.isRequired,
 };
 
 const customerEditForm = reduxForm(
     {
-        form: 'CustomerEdit'
-    })(CustomerEdit);
+        form: 'TaskEdit'
+    })(TaskEdit);
 
 export default setPropsAsInitial(customerEditForm);

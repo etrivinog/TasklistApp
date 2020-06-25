@@ -14,34 +14,48 @@ import { fetchTasks } from '../../actions/taskActions/fetchTasks';
 import { SubmissionError } from 'redux-form';
 import TasksContainer from './task/TasksContainer';
 
+/**
+ * This component is shown to display the information of a especific
+ * tasklist selected by the user in <TasklistsContainer>
+ */
 class TasklistContainer extends Component {
 
+
+    //If the prop tasklist is empty, loads the taskslist from the server
     componentDidMount() {
         
         if(!this.props.tasklist) {
+            //Loads tasklists from server
             this.props.fetchTasklist();
         }
 
 
     }
     
+    //When user choose back in the child component
     handleOnBack = () => {
         this.props.history.goBack();
     }
     
     //This function receives the values from the submitted form
     handleSubmit = values => {
-        console.log(JSON.stringify(values));
         
+        console.log(JSON.stringify(values));
+
+        //Send the tasklist to the server to update it
         //Returns the promise to indicate submitting status and lock the button
         return this.props.updateTasklist(values).then(data => 
-            console.log("Success"))
+            console.log("Success!"))
         .catch(err => {
             return err
         });
 
     }
     
+    /**
+     * This function is executed when the user press the "Delete" button to
+     * delete the tasklist.
+     */
     handleOnDelete = (id) => {
         this.props.deleteTasklist(id).then(v => {
             this.props.history.goBack();
@@ -56,8 +70,12 @@ class TasklistContainer extends Component {
     renderCustomerControl = (isEdit, isDelete) => {
         //If the array of tasklists is not empty, render a component
         if (this.props.tasklist) {
-            //If the user has choosen the edit option render edit, else render the component
-            //to show the data without a form
+            /*
+              If the user has choosen the edit option, renderizes edit, else render the component
+              to show the data without a form
+              Passes the function as properties to be called in the buttons with onClick
+              Also render <TasksContainer> to show the tasks of the selected tasklist
+            */
             const TasklistControl = isEdit ?  TasklistEdit : TasklistData;
             return <div><TasklistControl {...this.props.tasklist} 
                                         onSubmit={this.handleSubmit}
@@ -105,18 +123,26 @@ class TasklistContainer extends Component {
     }
 }
 
-//Validates properties
+/**
+ * Validates properties
+ */
 TasklistContainer.propTypes = {
     tasklist: PropTypes.array,
 };
 
-//Takes the imformation from state and put a copy of then into the properties
+/**
+ * Gets information from the global store and map it into the props
+ * of the component. Uses the selector design pattern to abstract the state structure
+ */
 const mapStateToProps = (state, props) => ({
     tasklist: getTasklistById(state, props),
 })
 
-//Connect the component to the global store and map the indicated funcions into the properties
-//Also uses withRouter to acces the vavigation.
+/**
+ * Connect the component to the global store and map the indicated
+ * funcions into the properties. Also uses withRouter to acces the
+ * vavigation and maps fetch, update and delete functions to props
+ */
 export default withRouter(connect(mapStateToProps, {
     fetchTasklist,
     updateTasklist,

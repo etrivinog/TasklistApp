@@ -8,6 +8,10 @@ import { withRouter } from 'react-router-dom';
 import {fetchTasklist } from '../../actions/tasklistActions/fetchTasklist';
 import { getTasklists } from '../../selectors/tasklist';
 
+/**
+ * This component loads a list of tasklists from the server
+ * and map it into the global store
+ */
 class TasklistsContainer extends Component {
 
     //Once the component is mounted
@@ -49,18 +53,27 @@ class TasklistsContainer extends Component {
     }
 }
 
+/**
+ * Validates props
+ */
 TasklistsContainer.propTypes = {
     tasklists: PropTypes.array.isRequired,
 };
 
 
-//Initialize the properties
+/**
+ * Initialize the properties
+ */
 TasklistsContainer.defaultProps = {
     tasklists: [
     ]
 };
 
-//Takes the imformation from state and put a copy of then into the properties
+/**
+ * Get information from the global store and map it into the props
+ * of the component.
+ * Uses the selector design pattern to abstract the state structure
+ */
 const mapStateToProps = (state) => ({
     tasklists: getTasklists(state),
 });
