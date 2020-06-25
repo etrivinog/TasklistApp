@@ -12,7 +12,7 @@ class NewUserContainer extends Component {
     handleOnSubmit = user => {
         
         return  this.props.insertUser(user).then(data => 
-            console.log("Se resolvio con exito"))
+            console.log("Success"))
         .catch(error => {
             throw new SubmissionError (error);
         });
