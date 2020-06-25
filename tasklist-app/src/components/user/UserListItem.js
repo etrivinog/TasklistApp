@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const UserListItem = ({ userId, name, delAction, editAction, urlPath }) => {
     return (
         <div key={userId}>
-            <div className="customers-list-item">
+            <div className="list-item">
                 <div className="field">
                     <Link to={`${urlPath}${userId}`}>{name}</Link>
                 </div>

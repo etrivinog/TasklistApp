@@ -7,7 +7,7 @@ const TasklistList = ({tasklists, urlPath}) => {
     
     return (
         <div>
-            <div className="tasklist-list">
+            <div className="list">
                 {
                     tasklists.map(t => 
                         <div key={`${t.tasklistId}${t.name}`}>

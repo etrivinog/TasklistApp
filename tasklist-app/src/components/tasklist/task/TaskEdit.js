@@ -99,7 +99,7 @@ const CustomerEdit = ({tasklists, users, handleSubmit, submitting, onBack, prist
                     component={MyField}
                     type="text"
                     validate={isRequiredFormat}
-                    label="Status (1 - Open, 2 - In Progress, 3 - Completed, 4 - Archived"></Field>
+                    label="Status (1 - Open, 2 - In Progress, 3 - Completed, 4 - Archived)"></Field>
                 <Action>
                     <button type="button" disabled={submitting} onClick={onBack}>
                         Cancel

@@ -5,7 +5,7 @@ import UserListItem from './UserListItem';
 const UserList = ({users, urlPath}) => {
     return (
         <div>
-            <div className="user-list">
+            <div className="list">
                 {
                     users.map( user =>
                         <UserListItem

@@ -54,8 +54,10 @@ class TasklistContainer extends Component {
     }
 
     renderCustomerControl = (isEdit, isDelete) => {
-        console.log(`VALUE OF TASKLIST: ${JSON.stringify(this.props.tasklist)}`)
+        //If the array of tasklists is not empty, render a component
         if (this.props.tasklist) {
+            //If the user has choosen the edit option render edit, else render the component
+            //to show the data without a form
             const TasklistControl = isEdit ?  TasklistEdit : TasklistData;
             return <div><TasklistControl {...this.props.tasklist} 
                                         onSubmit={this.handleSubmit}
@@ -76,6 +78,7 @@ class TasklistContainer extends Component {
         
     }
 
+    //Evaluates the url and indicates the component to display
     renderBody = () => (
         <div>
             <Route path="/tasklist/:tasklistId/edit" children={
@@ -102,14 +105,18 @@ class TasklistContainer extends Component {
     }
 }
 
+//Validates properties
 TasklistContainer.propTypes = {
-
+    tasklist: PropTypes.array,
 };
 
+//Takes the imformation from state and put a copy of then into the properties
 const mapStateToProps = (state, props) => ({
     tasklist: getTasklistById(state, props),
 })
 
+//Connect the component to the global store and map the indicated funcions into the properties
+//Also uses withRouter to acces the vavigation.
 export default withRouter(connect(mapStateToProps, {
     fetchTasklist,
     updateTasklist,

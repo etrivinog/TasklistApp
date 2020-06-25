@@ -10,6 +10,7 @@ import { getTasklists } from '../../selectors/tasklist';
 
 class TasklistsContainer extends Component {
 
+    //Once the component is mounted
     componentDidMount() {
         //If tasklists are not loaded
         if(this.props.tasklists.length === 0){
@@ -19,17 +20,12 @@ class TasklistsContainer extends Component {
     }
     
     handleNewTasklist = () => {
+        //Change the url to display the form
         this.props.history.push('tasklist/new');
     }
 
-    handleNewTask = (tasklistId) => {
-        console.log("handleNewTask");
-    }
-
-    handleOnBack = () => {
-        this.props.history.goBack();
-    }
-
+    //There are two buttons, the first one goes to the main screen
+    //and the second one goes to the from to create a user
     renderBody = (tasklists) => (
         <div>
             <TasklistList 
@@ -57,11 +53,14 @@ TasklistsContainer.propTypes = {
     tasklists: PropTypes.array.isRequired,
 };
 
+
+//Initialize the properties
 TasklistsContainer.defaultProps = {
     tasklists: [
     ]
 };
 
+//Takes the imformation from state and put a copy of then into the properties
 const mapStateToProps = (state) => ({
     tasklists: getTasklists(state),
 });

@@ -16,11 +16,18 @@ import TaskContainer from './containers/tasklist/task/TaskContainer';
 /**
  * The structure of this project was build based in the knowledge aquired in the ReactJs
  * course in this link: https://www.udemy.com/course/react-js-redux-es6-completo-de-0-a-experto-espanol/
+ * 
+ * The file "index.css" was taken and modified from one of the project of the course.
+ * 
  */
 function App() {
   return (
 
-    //Router configuration to manage when every component is shown
+    /**
+     * Router configuration to manage when every component is shown.
+     * Each component is shown when the url adrress matches with the path.
+     * The url change as the user navigates through the app.
+    */
     <Router>
       <div className="App">
         <div>

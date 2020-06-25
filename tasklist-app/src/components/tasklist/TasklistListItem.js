@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const TasklistListItem = ({id, name, urlPath, editAction, delAction}) => {
     return (
-        <div>
-            <div className="tasklist-list-item">
+        <div key={id}>
+            <div className="list-item">
                 <div className="field">
                     <Link to={`${urlPath}${id}`}>{name}</Link>
                 </div>
