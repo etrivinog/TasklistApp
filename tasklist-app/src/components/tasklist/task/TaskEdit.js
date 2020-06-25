@@ -108,7 +108,8 @@ const TaskEdit = ({tasklists, users, handleSubmit, submitting, onBack, pristine,
                     component={renderDropdownList}
                     data={transformedTasklists}
                     valueField="value"
-                    textField="tasklist"></Field>
+                    textField="tasklist"
+                    validate={isRequired} ></Field>
                 <label>Done</label>
                 <Field
                     name="done"
@@ -116,21 +117,24 @@ const TaskEdit = ({tasklists, users, handleSubmit, submitting, onBack, pristine,
                     component={renderDropdownList}
                     data={done}
                     valueField="value"
-                    textField="done"></Field>
+                    textField="done"
+                    validate={isRequired} ></Field>
                 <label>User</label>
                 <Field
                     name="user"
                     component={renderDropdownList}
                     data={transformedUsers}
                     valueField="value"
-                    textField="user"></Field>
+                    textField="user"
+                    validate={isRequired} ></Field>
                 <label>Status</label>
                 <Field
                     name="status"
                     component={renderDropdownList}
                     data={statuses}
                     valueField="value"
-                    textField="status"></Field>
+                    textField="status"
+                    validate={isRequired} ></Field>
                 <Action>
                     <button type="button" disabled={submitting} onClick={onBack}>
                         Cancel
